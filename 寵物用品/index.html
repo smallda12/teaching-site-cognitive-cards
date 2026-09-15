@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>寵物用品｜認知圖卡網站</title>
+<link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+
+<a class="top-link" href="../index.html">← 返回首頁</a>
+
+<div class="unit-header">
+  <h1>🐾 寵物用品</h1>
+  <div class="sub">66寵物用品（共 10 項）</div>
+</div>
+
+<div class="stepper">
+  <button class="step-btn" data-step="1"><span class="num">1</span>圖卡認識</button>
+  <button class="step-btn" data-step="2"><span class="num">2</span>教學影片</button>
+  <button class="step-btn" data-step="3"><span class="num">3</span>造詞造句</button>
+  <button class="step-btn" data-step="4"><span class="num">4</span>Wordwall 練習</button>
+</div>
+
+<!-- Step 1：圖卡認識 -->
+<section class="step-panel" data-step="1">
+  <h2 class="panel-title">① 圖卡認識：點卡片聽發音</h2>
+
+  <div class="view-toggle">
+    <button class="view-btn" data-view="grid">🔲 全部呈現</button>
+    <button class="view-btn" data-view="single">➡️ 逐張瀏覽</button>
+  </div>
+
+  <div class="view-panel" data-view="grid">
+    <div class="group-heading">寵物用品</div>
+    <div class="card-grid">
+      <button class="flash-card" data-audio="66寵物用品/assets/audio/p01.mp3"><img src="66寵物用品/頁面截圖/000_狗屋.png" alt="狗屋"><span class="label">狗屋</span></button>
+      <button class="flash-card" data-audio="66寵物用品/assets/audio/p02.mp3"><img src="66寵物用品/頁面截圖/001_魚缸.png" alt="魚缸"><span class="label">魚缸</span></button>
+      <button class="flash-card" data-audio="66寵物用品/assets/audio/p03.mp3"><img src="66寵物用品/頁面截圖/002_鳥籠.png" alt="鳥籠"><span class="label">鳥籠</span></button>
+      <button class="flash-card" data-audio="66寵物用品/assets/audio/p04.mp3"><img src="66寵物用品/頁面截圖/003_貓抓板.png" alt="貓抓板"><span class="label">貓抓板</span></button>
+      <button class="flash-card" data-audio="66寵物用品/assets/audio/p05.mp3"><img src="66寵物用品/頁面截圖/004_貓砂盆.png" alt="貓砂盆"><span class="label">貓砂盆</span></button>
+      <button class="flash-card" data-audio="66寵物用品/assets/audio/p06.mp3"><img src="66寵物用品/頁面截圖/005_牽繩.png" alt="牽繩"><span class="label">牽繩</span></button>
+      <button class="flash-card" data-audio="66寵物用品/assets/audio/p07.mp3"><img src="66寵物用品/頁面截圖/006_貓跳台.png" alt="貓跳台"><span class="label">貓跳台</span></button>
+      <button class="flash-card" data-audio="66寵物用品/assets/audio/p08.mp3"><img src="66寵物用品/頁面截圖/007_寵物碗.png" alt="寵物碗"><span class="label">寵物碗</span></button>
+      <button class="flash-card" data-audio="66寵物用品/assets/audio/p09.mp3"><img src="66寵物用品/頁面截圖/008_狗骨頭.png" alt="狗骨頭"><span class="label">狗骨頭</span></button>
+      <button class="flash-card" data-audio="66寵物用品/assets/audio/p10.mp3"><img src="66寵物用品/頁面截圖/009_倉鼠滾輪.png" alt="倉鼠滾輪"><span class="label">倉鼠滾輪</span></button>
+    </div>
+  </div>
+
+  <div class="view-panel" data-view="single">
+    <div class="single-wrap">
+      <div class="single-header">
+        <span id="singleGroup">寵物用品</span>
+        <span class="single-count" id="singleCount">1 / 10</span>
+      </div>
+      <div class="single-frame">
+        <img id="singleImg" src="" alt="">
+      </div>
+      <div class="single-label" id="singleLabel"></div>
+      <div class="single-controls">
+        <button class="ctrl btn-nav" id="singlePrev" type="button">◀ 上一張</button>
+        <button class="ctrl btn-play" id="singlePlay" type="button">🔊 重複播放</button>
+        <button class="ctrl btn-auto" id="singleAuto" type="button">▶ 自動播放</button>
+        <button class="ctrl btn-nav" id="singleNext" type="button">下一張 ▶</button>
+      </div>
+    </div>
+  </div>
+
+  <audio id="cardAudio" preload="none"></audio>
+</section>
+
+<!-- Step 2：教學影片 -->
+<section class="step-panel" data-step="2">
+  <h2 class="panel-title">② 教學影片：跟著唸讀</h2>
+  <div class="link-card-row">
+    <a class="link-card" href="66寵物用品/教材播放器.html">
+      <div class="emoji">🎬</div>
+      <div class="title">寵物用品 教學影片</div>
+      <div class="desc">狗屋、魚缸、鳥籠、貓抓板、貓砂盆、牽繩、貓跳台、寵物碗、狗骨頭、倉鼠滾輪</div>
+      <div class="go-btn">開始播放</div>
+    </a>
+  </div>
+</section>
+
+<!-- Step 3：造詞造句 -->
+<section class="step-panel" data-step="3">
+  <h2 class="panel-title">③ 造詞造句：跟著唸讀</h2>
+  <div class="link-card-row">
+    <a class="link-card" href="66寵物用品/造詞造句版/教材播放器.html">
+      <div class="emoji">📝</div>
+      <div class="title">寵物用品 造詞造句</div>
+      <div class="desc">例：狗屋 → 住狗屋 → 這是狗屋</div>
+      <div class="go-btn">開始練習</div>
+    </a>
+  </div>
+</section>
+
+<!-- Step 4：Wordwall 練習 -->
+<section class="step-panel" data-step="4">
+  <h2 class="panel-title">④ Wordwall 題庫練習</h2>
+
+  <div class="quiz-group">
+    <div class="group-heading">寵物用品</div>
+    <div class="quiz-btns">
+      <a class="quiz-btn" target="_blank" rel="noopener" href="https://wordwall.net/tc/resource/118547920"><span class="icon">🃏</span>隨機卡</a>
+      <a class="quiz-btn" target="_blank" rel="noopener" href="https://wordwall.net/tc/resource/118547959"><span class="icon">🔎</span>圖片文字匹配</a>
+      <a class="quiz-btn" target="_blank" rel="noopener" href="https://wordwall.net/tc/resource/118547982"><span class="icon">🔊</span>只有聲音</a>
+      <a class="quiz-btn" target="_blank" rel="noopener" href="https://wordwall.net/tc/resource/118548009"><span class="icon">🖼️</span>圖像測驗</a>
+    </div>
+  </div>
+</section>
+
+<script src="js/unit.js"></script>
+</body>
+</html>
