@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>超商賣場用品｜認知圖卡網站</title>
+<link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+
+<a class="top-link" href="../index.html">← 返回首頁</a>
+
+<div class="unit-header">
+  <h1>🏪 超商賣場用品</h1>
+  <div class="sub">78超商賣場用品（共 10 項）</div>
+</div>
+
+<div class="stepper">
+  <button class="step-btn" data-step="1"><span class="num">1</span>圖卡認識</button>
+  <button class="step-btn" data-step="2"><span class="num">2</span>教學影片</button>
+  <button class="step-btn" data-step="3"><span class="num">3</span>造詞造句</button>
+  <button class="step-btn" data-step="4"><span class="num">4</span>Wordwall 練習</button>
+</div>
+
+<!-- Step 1：圖卡認識 -->
+<section class="step-panel" data-step="1">
+  <h2 class="panel-title">① 圖卡認識：點卡片聽發音</h2>
+
+  <div class="view-toggle">
+    <button class="view-btn" data-view="grid">🔲 全部呈現</button>
+    <button class="view-btn" data-view="single">➡️ 逐張瀏覽</button>
+  </div>
+
+  <div class="view-panel" data-view="grid">
+    <div class="group-heading">超商賣場用品</div>
+    <div class="card-grid">
+      <button class="flash-card" data-audio="78超商賣場用品/assets/audio/p01.mp3"><img src="78超商賣場用品/頁面截圖/000_收銀機.png" alt="收銀機"><span class="label">收銀機</span></button>
+      <button class="flash-card" data-audio="78超商賣場用品/assets/audio/p02.mp3"><img src="78超商賣場用品/頁面截圖/001_購物籃.png" alt="購物籃"><span class="label">購物籃</span></button>
+      <button class="flash-card" data-audio="78超商賣場用品/assets/audio/p03.mp3"><img src="78超商賣場用品/頁面截圖/002_購物推車.png" alt="購物推車"><span class="label">購物推車</span></button>
+      <button class="flash-card" data-audio="78超商賣場用品/assets/audio/p04.mp3"><img src="78超商賣場用品/頁面截圖/003_條碼掃描器.png" alt="條碼掃描器"><span class="label">條碼掃描器</span></button>
+      <button class="flash-card" data-audio="78超商賣場用品/assets/audio/p05.mp3"><img src="78超商賣場用品/頁面截圖/004_發票.png" alt="發票"><span class="label">發票</span></button>
+      <button class="flash-card" data-audio="78超商賣場用品/assets/audio/p06.mp3"><img src="78超商賣場用品/頁面截圖/005_提款機.png" alt="提款機"><span class="label">提款機</span></button>
+      <button class="flash-card" data-audio="78超商賣場用品/assets/audio/p07.mp3"><img src="78超商賣場用品/頁面截圖/006_悠遊卡.png" alt="悠遊卡"><span class="label">悠遊卡</span></button>
+      <button class="flash-card" data-audio="78超商賣場用品/assets/audio/p08.mp3"><img src="78超商賣場用品/頁面截圖/007_貨架.png" alt="貨架"><span class="label">貨架</span></button>
+      <button class="flash-card" data-audio="78超商賣場用品/assets/audio/p09.mp3"><img src="78超商賣場用品/頁面截圖/008_標價牌.png" alt="標價牌"><span class="label">標價牌</span></button>
+      <button class="flash-card" data-audio="78超商賣場用品/assets/audio/p10.mp3"><img src="78超商賣場用品/頁面截圖/009_電子秤.png" alt="電子秤"><span class="label">電子秤</span></button>
+    </div>
+  </div>
+
+  <div class="view-panel" data-view="single">
+    <div class="single-wrap">
+      <div class="single-header">
+        <span id="singleGroup">超商賣場用品</span>
+        <span class="single-count" id="singleCount">1 / 10</span>
+      </div>
+      <div class="single-frame">
+        <img id="singleImg" src="" alt="">
+      </div>
+      <div class="single-label" id="singleLabel"></div>
+      <div class="single-controls">
+        <button class="ctrl btn-nav" id="singlePrev" type="button">◀ 上一張</button>
+        <button class="ctrl btn-play" id="singlePlay" type="button">🔊 重複播放</button>
+        <button class="ctrl btn-auto" id="singleAuto" type="button">▶ 自動播放</button>
+        <button class="ctrl btn-nav" id="singleNext" type="button">下一張 ▶</button>
+      </div>
+    </div>
+  </div>
+
+  <audio id="cardAudio" preload="none"></audio>
+</section>
+
+<!-- Step 2：教學影片 -->
+<section class="step-panel" data-step="2">
+  <h2 class="panel-title">② 教學影片：跟著唸讀</h2>
+  <div class="link-card-row">
+    <a class="link-card" href="78超商賣場用品/教材播放器.html">
+      <div class="emoji">🎬</div>
+      <div class="title">超商賣場用品 教學影片</div>
+      <div class="desc">收銀機、購物籃、購物推車、條碼掃描器、發票、提款機、悠遊卡、貨架、標價牌、電子秤</div>
+      <div class="go-btn">開始播放</div>
+    </a>
+  </div>
+</section>
+
+<!-- Step 3：造詞造句 -->
+<section class="step-panel" data-step="3">
+  <h2 class="panel-title">③ 造詞造句：跟著唸讀</h2>
+  <div class="link-card-row">
+    <a class="link-card" href="78超商賣場用品/造詞造句版/教材播放器.html">
+      <div class="emoji">📝</div>
+      <div class="title">超商賣場用品 造詞造句</div>
+      <div class="desc">例：收銀機 → 收銀機結帳 → 店員用收銀機結帳</div>
+      <div class="go-btn">開始練習</div>
+    </a>
+  </div>
+</section>
+
+<!-- Step 4：Wordwall 練習 -->
+<section class="step-panel" data-step="4">
+  <h2 class="panel-title">④ Wordwall 題庫練習</h2>
+
+  <div class="quiz-group">
+    <div class="group-heading">超商賣場用品</div>
+    <div class="quiz-btns">
+      <a class="quiz-btn" target="_blank" rel="noopener" href="https://wordwall.net/tc/resource/118983547"><span class="icon">🃏</span>隨機卡</a>
+      <a class="quiz-btn" target="_blank" rel="noopener" href="https://wordwall.net/tc/resource/118983561"><span class="icon">🔎</span>圖片文字匹配</a>
+      <a class="quiz-btn" target="_blank" rel="noopener" href="https://wordwall.net/tc/resource/118983575"><span class="icon">🔊</span>只有聲音</a>
+      <a class="quiz-btn" target="_blank" rel="noopener" href="https://wordwall.net/tc/resource/118983589"><span class="icon">🖼️</span>圖像測驗</a>
+    </div>
+  </div>
+</section>
+
+<script src="js/unit.js"></script>
+</body>
+</html>
