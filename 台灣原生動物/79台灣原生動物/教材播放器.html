@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>台灣原生動物</title>
+<style>
+  :root{
+    --bg:#FFF6E9;
+    --primary:#4A90D9;
+    --primary-dark:#3573B5;
+    --accent:#FF8C61;
+    --accent-dark:#E8703D;
+    --text:#3A3A3A;
+    --dot:#D8D8D8;
+    --dot-active:#4A90D9;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0;padding:0;height:100%;
+    background:var(--bg);
+    font-family:"Noto Sans TC","Microsoft JhengHei","PingFang TC",sans-serif;
+    color:var(--text);
+    -webkit-user-select:none;user-select:none;
+    overflow:hidden;
+  }
+  body{
+    display:flex;flex-direction:column;
+    align-items:center;
+    height:100vh;
+    padding:1.5vh 16px;
+    gap:1.2vh;
+  }
+  header{
+    display:flex;align-items:center;justify-content:center;gap:16px;
+    width:100%;
+    flex:0 0 auto;
+    flex-wrap:wrap;
+  }
+  h1{
+    font-size:clamp(18px,3.2vh,32px);
+    margin:0;
+  }
+  .back-link{
+    position:fixed;top:10px;left:12px;
+    font-size:clamp(13px,2vh,18px);
+    color:var(--primary-dark);
+    text-decoration:none;
+    background:#fff;
+    padding:6px 14px;
+    border-radius:999px;
+    box-shadow:0 2px 6px rgba(0,0,0,.10);
+    z-index:10;
+  }
+  .back-link:hover{background:var(--bg);}
+  .page-count{
+    font-size:clamp(14px,2.4vh,24px);
+    color:var(--primary-dark);
+    font-weight:bold;
+    background:#fff;
+    padding:4px 16px;
+    border-radius:999px;
+    box-shadow:0 2px 6px rgba(0,0,0,.10);
+  }
+  .stage{
+    flex:1 1 auto;
+    min-height:0;
+    width:100%;
+    max-width:1100px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .frame{
+    max-width:100%;
+    max-height:100%;
+    background:#000;
+    border-radius:28px;
+    overflow:hidden;
+    box-shadow:0 10px 28px rgba(0,0,0,.20);
+    position:relative;
+  }
+  .frame img{
+    width:100%;height:100%;object-fit:contain;
+    background:#fff;
+    display:block;
+  }
+  .dots{
+    display:flex;gap:7px;flex-wrap:wrap;justify-content:center;
+    max-width:900px;
+    flex:0 0 auto;
+  }
+  .dot{
+    width:clamp(9px,1.4vh,14px);height:clamp(9px,1.4vh,14px);border-radius:50%;
+    background:var(--dot);
+    cursor:pointer;
+    transition:transform .15s, background .15s;
+  }
+  .dot.active{background:var(--dot-active);transform:scale(1.35);}
+  .controls{
+    display:flex;align-items:center;justify-content:center;gap:min(4vw,22px);
+    width:100%;
+    flex:0 0 auto;
+    flex-wrap:wrap;
+  }
+  button.ctrl{
+    border:none;
+    border-radius:18px;
+    font-size:clamp(15px,2.4vh,24px);
+    font-weight:bold;
+    padding:1.4vh 20px;
+    min-width:110px;
+    min-height:clamp(48px,7.5vh,68px);
+    cursor:pointer;
+    color:#fff;
+    box-shadow:0 4px 10px rgba(0,0,0,.15);
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    transition:transform .1s, opacity .15s, background .15s;
+    font-family:inherit;
+  }
+  button.ctrl:active{transform:scale(.95);}
+  button.ctrl:disabled{opacity:.35;cursor:default;}
+  .btn-nav{background:var(--primary);}
+  .btn-nav:hover:not(:disabled){background:var(--primary-dark);}
+  .btn-play{
+    background:var(--accent);
+    min-width:190px;
+    font-size:clamp(16px,2.7vh,26px);
+  }
+  .btn-play:hover{background:var(--accent-dark);}
+  .btn-play.playing{animation:pulse 1s infinite;}
+  .btn-auto{background:#4CAF7D;min-width:170px;}
+  .btn-auto:hover{background:#3D9468;}
+  .btn-auto.active{background:var(--accent-dark);animation:pulse 1s infinite;}
+  @keyframes pulse{
+    0%,100%{box-shadow:0 4px 10px rgba(0,0,0,.15);}
+    50%{box-shadow:0 4px 24px rgba(255,140,97,.7);}
+  }
+</style>
+</head>
+<body>
+  <a class="back-link" href="../index.html">← 返回台灣原生動物單元</a>
+  <header>
+    <h1>台灣原生動物</h1>
+    <div class="page-count" id="pageCount">1 / 1</div>
+  </header>
+
+  <div class="stage">
+    <div class="frame">
+      <img id="pageImg" src="" alt="">
+    </div>
+  </div>
+
+  <div class="dots" id="dots"></div>
+
+  <div class="controls">
+    <button class="ctrl btn-nav" id="prevBtn" type="button">◀ 上一頁</button>
+    <button class="ctrl btn-play" id="playBtn" type="button">🔊 重複播放</button>
+    <button class="ctrl btn-auto" id="autoBtn" type="button">▶ 自動播放</button>
+    <button class="ctrl btn-nav" id="nextBtn" type="button">下一頁 ▶</button>
+  </div>
+
+  <audio id="audioPlayer" preload="auto"></audio>
+
+  <script>
+  const pages = [
+    {img:"頁面截圖/000_台灣黑熊.png", audio:"assets/audio/p01.mp3", label:"台灣黑熊"},
+    {img:"頁面截圖/001_台灣長鬃山羊.png", audio:"assets/audio/p02.mp3", label:"台灣長鬃山羊"},
+    {img:"頁面截圖/002_白鼻心.png", audio:"assets/audio/p03.mp3", label:"白鼻心"},
+    {img:"頁面截圖/003_穿山甲.png", audio:"assets/audio/p04.mp3", label:"穿山甲"},
+    {img:"頁面截圖/004_石虎.png", audio:"assets/audio/p05.mp3", label:"石虎"},
+    {img:"頁面截圖/005_帝雉.png", audio:"assets/audio/p06.mp3", label:"帝雉"},
+    {img:"頁面截圖/006_台灣山羌.png", audio:"assets/audio/p07.mp3", label:"台灣山羌"},
+    {img:"頁面截圖/007_櫻花鉤吻鮭.png", audio:"assets/audio/p08.mp3", label:"櫻花鉤吻鮭"},
+    {img:"頁面截圖/008_台灣野豬.png", audio:"assets/audio/p09.mp3", label:"台灣野豬"},
+    {img:"頁面截圖/009_飛鼠.png", audio:"assets/audio/p10.mp3", label:"飛鼠"},
+  ];
+
+  let current = 0;
+  let audioUnlocked = false;
+  let autoPlay = false;
+  let autoTimer = null;
+
+  const pageImg = document.getElementById('pageImg');
+  const pageCount = document.getElementById('pageCount');
+  const dotsWrap = document.getElementById('dots');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const playBtn = document.getElementById('playBtn');
+  const autoBtn = document.getElementById('autoBtn');
+  const audioPlayer = document.getElementById('audioPlayer');
+  const stage = document.querySelector('.stage');
+  const frame = document.querySelector('.frame');
+
+  // 讓 16:9 的畫面框在「扣掉頁碼／圓點／按鈕之後剩下的空間」裡盡量放大，
+  // 同時保證整頁一定塞得進 100vh，不需要捲動——純 CSS（flex + aspect-ratio）
+  // 在直式或接近正方形的視窗下算不準，用 JS 直接量測、算好再賦值最可靠。
+  function fitFrame(){
+    const ratio = 1.0;
+    const availW = stage.clientWidth;
+    const availH = stage.clientHeight;
+    let w = availW, h = w / ratio;
+    if (h > availH){ h = availH; w = h * ratio; }
+    frame.style.width = w + 'px';
+    frame.style.height = h + 'px';
+  }
+  window.addEventListener('resize', fitFrame);
+  fitFrame();
+
+  pages.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'dot';
+    dot.addEventListener('click', () => goTo(i));
+    dotsWrap.appendChild(dot);
+  });
+  const dotEls = Array.from(dotsWrap.children);
+
+  function updateDots(){
+    dotEls.forEach((d,i)=> d.classList.toggle('active', i===current));
+  }
+
+  function playCurrentAudio(){
+    audioPlayer.currentTime = 0;
+    const p = audioPlayer.play();
+    if (p !== undefined){
+      p.then(()=>{
+        audioUnlocked = true;
+        playBtn.classList.add('playing');
+      }).catch(()=>{
+        // 瀏覽器擋自動播放時靜靜失敗即可，按「重複播放」按鈕還是能手動播放
+      });
+    }
+  }
+
+
+  function updateAutoBtn(){
+    autoBtn.classList.toggle('active', autoPlay);
+    autoBtn.textContent = autoPlay ? '⏸ 停止自動播放' : '▶ 自動播放';
+  }
+
+  function stopAuto(){
+    autoPlay = false;
+    updateAutoBtn();
+    clearTimeout(autoTimer);
+  }
+
+  function render(autoplay){
+    const page = pages[current];
+    pageImg.src = page.img;
+    pageImg.alt = page.label;
+    pageCount.textContent = (current+1) + ' / ' + pages.length;
+    audioPlayer.src = page.audio;
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === pages.length - 1;
+    updateDots();
+    playBtn.classList.remove('playing');
+    if (autoplay){
+      playCurrentAudio();
+    }
+  }
+
+  function goTo(i){
+    if (i<0 || i>=pages.length) return;
+    current = i;
+    render(true);
+  }
+
+  prevBtn.addEventListener('click', ()=> { stopAuto(); goTo(current-1); });
+  nextBtn.addEventListener('click', ()=> { stopAuto(); goTo(current+1); });
+  playBtn.addEventListener('click', ()=> { audioUnlocked = true; playCurrentAudio(); });
+  autoBtn.addEventListener('click', ()=>{
+    audioUnlocked = true;
+    autoPlay = !autoPlay;
+    updateAutoBtn();
+    if (autoPlay) playCurrentAudio();
+    else clearTimeout(autoTimer);
+  });
+
+  audioPlayer.addEventListener('ended', ()=>{
+    playBtn.classList.remove('playing');
+    if (!autoPlay) return;
+    if (current < pages.length - 1){
+      autoTimer = setTimeout(()=> goTo(current+1), 700);
+    } else {
+      stopAuto();
+    }
+  });
+
+  document.addEventListener('keydown', (e)=>{
+    if (e.key === 'ArrowRight'){ stopAuto(); goTo(current+1); }
+    else if (e.key === 'ArrowLeft'){ stopAuto(); goTo(current-1); }
+    else if (e.key === ' '){ e.preventDefault(); playCurrentAudio(); }
+  });
+
+  render(true);
+  </script>
+</body>
+</html>
