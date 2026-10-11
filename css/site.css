@@ -311,3 +311,9 @@ button.ctrl:disabled{opacity:.35;cursor:default;}
 }
 .quiz-btn:hover{background:var(--primary-dark);}
 .quiz-btn .icon{font-size:22px;}
+
+/* Step⑤ 課文影片（2026-10-11：⑤ 也直接放做好的 mp4，不用一頁一頁按） */
+.panel-sub{text-align:center;font-size:clamp(18px,2.4vw,22px);font-weight:bold;color:var(--primary-dark);margin:36px 0 16px;}
+.kewen-video-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;}
+.kewen-video{background:var(--card-bg);border-radius:20px;box-shadow:var(--card-shadow);padding:16px;}
+.kewen-video video{width:100%;max-height:70vh;border-radius:14px;background:#000;display:block;margin-top:10px;}
