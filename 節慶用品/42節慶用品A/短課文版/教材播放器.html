@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>節慶用品 A 短課文</title>
+<style>
+  :root{
+    --bg:#FFF6E9;
+    --primary:#4A90D9;
+    --primary-dark:#3573B5;
+    --accent:#FF8C61;
+    --accent-dark:#E8703D;
+    --text:#3A3A3A;
+    --dot:#D8D8D8;
+    --dot-active:#4A90D9;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0;padding:0;height:100%;
+    background:var(--bg);
+    font-family:"Noto Sans TC","Microsoft JhengHei","PingFang TC",sans-serif;
+    color:var(--text);
+    -webkit-user-select:none;user-select:none;
+    overflow:hidden;
+  }
+  body{
+    display:flex;flex-direction:column;
+    align-items:center;
+    height:100vh;
+    padding:1.5vh 16px;
+    gap:1.2vh;
+  }
+  header{
+    display:flex;align-items:center;justify-content:center;gap:16px;
+    width:100%;
+    flex:0 0 auto;
+    flex-wrap:wrap;
+  }
+  h1{
+    font-size:clamp(18px,3.2vh,32px);
+    margin:0;
+  }
+  .back-link{
+    position:fixed;top:10px;left:12px;
+    font-size:clamp(13px,2vh,18px);
+    color:var(--primary-dark);
+    text-decoration:none;
+    background:#fff;
+    padding:6px 14px;
+    border-radius:999px;
+    box-shadow:0 2px 6px rgba(0,0,0,.10);
+    z-index:10;
+  }
+  .back-link:hover{background:var(--bg);}
+  .page-count{
+    font-size:clamp(14px,2.4vh,24px);
+    color:var(--primary-dark);
+    font-weight:bold;
+    background:#fff;
+    padding:4px 16px;
+    border-radius:999px;
+    box-shadow:0 2px 6px rgba(0,0,0,.10);
+  }
+  .stage{
+    flex:1 1 auto;
+    min-height:0;
+    width:100%;
+    max-width:1100px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .frame{
+    max-width:100%;
+    max-height:100%;
+    background:#000;
+    border-radius:28px;
+    overflow:hidden;
+    box-shadow:0 10px 28px rgba(0,0,0,.20);
+    position:relative;
+  }
+  .frame img{
+    width:100%;height:100%;object-fit:contain;
+    background:#fff;
+    display:block;
+  }
+  .dots{
+    display:flex;gap:7px;flex-wrap:wrap;justify-content:center;
+    max-width:900px;
+    flex:0 0 auto;
+  }
+  .dot{
+    width:clamp(9px,1.4vh,14px);height:clamp(9px,1.4vh,14px);border-radius:50%;
+    background:var(--dot);
+    cursor:pointer;
+    transition:transform .15s, background .15s;
+  }
+  .dot.active{background:var(--dot-active);transform:scale(1.35);}
+  .controls{
+    display:flex;align-items:center;justify-content:center;gap:min(4vw,22px);
+    width:100%;
+    flex:0 0 auto;
+    flex-wrap:wrap;
+  }
+  button.ctrl{
+    border:none;
+    border-radius:18px;
+    font-size:clamp(15px,2.4vh,24px);
+    font-weight:bold;
+    padding:1.4vh 20px;
+    min-width:110px;
+    min-height:clamp(48px,7.5vh,68px);
+    cursor:pointer;
+    color:#fff;
+    box-shadow:0 4px 10px rgba(0,0,0,.15);
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    transition:transform .1s, opacity .15s, background .15s;
+    font-family:inherit;
+  }
+  button.ctrl:active{transform:scale(.95);}
+  button.ctrl:disabled{opacity:.35;cursor:default;}
+  .btn-nav{background:var(--primary);}
+  .btn-nav:hover:not(:disabled){background:var(--primary-dark);}
+  .btn-play{
+    background:var(--accent);
+    min-width:190px;
+    font-size:clamp(16px,2.7vh,26px);
+  }
+  .btn-play:hover{background:var(--accent-dark);}
+  .btn-play.playing{animation:pulse 1s infinite;}
+  .btn-auto{background:#4CAF7D;min-width:170px;}
+  .btn-auto:hover{background:#3D9468;}
+  .btn-auto.active{background:var(--accent-dark);animation:pulse 1s infinite;}
+  @keyframes pulse{
+    0%,100%{box-shadow:0 4px 10px rgba(0,0,0,.15);}
+    50%{box-shadow:0 4px 24px rgba(255,140,97,.7);}
+  }
+</style>
+</head>
+<body>
+  <a class="back-link" href="../../index.html">← 返回節慶用品單元</a>
+  <header>
+    <h1>節慶用品 A 短課文</h1>
+    <div class="page-count" id="pageCount">1 / 1</div>
+  </header>
+
+  <div class="stage">
+    <div class="frame">
+      <img id="pageImg" src="" alt="">
+    </div>
+  </div>
+
+  <div class="dots" id="dots"></div>
+
+  <div class="controls">
+    <button class="ctrl btn-nav" id="prevBtn" type="button">◀ 上一頁</button>
+    <button class="ctrl btn-play" id="playBtn" type="button">🔊 重複播放</button>
+    <button class="ctrl btn-auto" id="autoBtn" type="button">▶ 自動播放</button>
+    <button class="ctrl btn-nav" id="nextBtn" type="button">下一頁 ▶</button>
+  </div>
+
+  <audio id="audioPlayer" preload="auto"></audio>
+
+  <script>
+  const pages = [
+    {img:"頁面截圖/000_燈籠.png", audio:"assets/audio/p01.mp3", label:"燈籠"},
+    {img:"頁面截圖/001_這是一個紅燈籠.png", audio:"assets/audio/p02.mp3", label:"這是一個紅燈籠"},
+    {img:"頁面截圖/002_圓圓紅色掛高高.png", audio:"assets/audio/p03.mp3", label:"圓圓紅色掛高高"},
+    {img:"頁面截圖/003_元宵提燈看花燈.png", audio:"assets/audio/p04.mp3", label:"元宵提燈看花燈"},
+    {img:"頁面截圖/004_我提著小燈籠看花燈.png", audio:"assets/audio/p05.mp3", label:"我提著小燈籠看花燈"},
+    {img:"頁面截圖/005_春聯.png", audio:"assets/audio/p06.mp3", label:"春聯"},
+    {img:"頁面截圖/006_這是一幅大春聯.png", audio:"assets/audio/p07.mp3", label:"這是一幅大春聯"},
+    {img:"頁面截圖/007_紅紙黑字真喜氣.png", audio:"assets/audio/p08.mp3", label:"紅紙黑字真喜氣"},
+    {img:"頁面截圖/008_新年貼在門兩邊.png", audio:"assets/audio/p09.mp3", label:"新年貼在門兩邊"},
+    {img:"頁面截圖/009_我和爸爸把春聯貼門上.png", audio:"assets/audio/p10.mp3", label:"我和爸爸把春聯貼門上"},
+    {img:"頁面截圖/010_紅包袋.png", audio:"assets/audio/p11.mp3", label:"紅包袋"},
+    {img:"頁面截圖/011_這是一個紅包袋.png", audio:"assets/audio/p12.mp3", label:"這是一個紅包袋"},
+    {img:"頁面截圖/012_紅色袋子燙金光.png", audio:"assets/audio/p13.mp3", label:"紅色袋子燙金光"},
+    {img:"頁面截圖/013_裝進祝福過新年.png", audio:"assets/audio/p14.mp3", label:"裝進祝福過新年"},
+    {img:"頁面截圖/014_我雙手拿紅包說吉祥話.png", audio:"assets/audio/p15.mp3", label:"我雙手拿紅包說吉祥話"},
+    {img:"頁面截圖/015_舞獅頭.png", audio:"assets/audio/p16.mp3", label:"舞獅頭"},
+    {img:"頁面截圖/016_這是一個舞獅頭.png", audio:"assets/audio/p17.mp3", label:"這是一個舞獅頭"},
+    {img:"頁面截圖/017_大大眼睛彩獅頭.png", audio:"assets/audio/p18.mp3", label:"大大眼睛彩獅頭"},
+    {img:"頁面截圖/018_咚咚鏘鏘熱鬧跳.png", audio:"assets/audio/p19.mp3", label:"咚咚鏘鏘熱鬧跳"},
+    {img:"頁面截圖/019_我戴著小獅頭歡樂跳舞.png", audio:"assets/audio/p20.mp3", label:"我戴著小獅頭歡樂跳舞"},
+    {img:"頁面截圖/020_月餅.png", audio:"assets/audio/p21.mp3", label:"月餅"},
+    {img:"頁面截圖/021_這是一塊圓月餅.png", audio:"assets/audio/p22.mp3", label:"這是一塊圓月餅"},
+    {img:"頁面截圖/022_圓圓餅皮烤金黃.png", audio:"assets/audio/p23.mp3", label:"圓圓餅皮烤金黃"},
+    {img:"頁面截圖/023_中秋賞月吃月餅.png", audio:"assets/audio/p24.mp3", label:"中秋賞月吃月餅"},
+    {img:"頁面截圖/024_我和家人在院子吃月餅.png", audio:"assets/audio/p25.mp3", label:"我和家人在院子吃月餅"},
+    {img:"頁面截圖/025_蠟燭.png", audio:"assets/audio/p26.mp3", label:"蠟燭"},
+    {img:"頁面截圖/026_這是一支紅蠟燭.png", audio:"assets/audio/p27.mp3", label:"這是一支紅蠟燭"},
+    {img:"頁面截圖/027_燭火搖曳亮光光.png", audio:"assets/audio/p28.mp3", label:"燭火搖曳亮光光"},
+    {img:"頁面截圖/028_點亮希望祈平安.png", audio:"assets/audio/p29.mp3", label:"點亮希望祈平安"},
+    {img:"頁面截圖/029_我雙手合十看蠟燭許願.png", audio:"assets/audio/p30.mp3", label:"我雙手合十看蠟燭許願"},
+    {img:"頁面截圖/030_鞭炮.png", audio:"assets/audio/p31.mp3", label:"鞭炮"},
+    {img:"頁面截圖/031_這是一串大鞭炮.png", audio:"assets/audio/p32.mp3", label:"這是一串大鞭炮"},
+    {img:"頁面截圖/032_紅色彩紙串一串.png", audio:"assets/audio/p33.mp3", label:"紅色彩紙串一串"},
+    {img:"頁面截圖/033_劈啪劈啪迎新年.png", audio:"assets/audio/p34.mp3", label:"劈啪劈啪迎新年"},
+    {img:"頁面截圖/034_我摀著耳朵看放鞭炮.png", audio:"assets/audio/p35.mp3", label:"我摀著耳朵看放鞭炮"},
+    {img:"頁面截圖/035_剪紙.png", audio:"assets/audio/p36.mp3", label:"剪紙"},
+    {img:"頁面截圖/036_這是一張紅剪紙.png", audio:"assets/audio/p37.mp3", label:"這是一張紅剪紙"},
+    {img:"頁面截圖/037_巧手剪出好圖案.png", audio:"assets/audio/p38.mp3", label:"巧手剪出好圖案"},
+    {img:"頁面截圖/038_貼在窗戶添喜氣.png", audio:"assets/audio/p39.mp3", label:"貼在窗戶添喜氣"},
+    {img:"頁面截圖/039_我把紅色窗花貼在窗戶.png", audio:"assets/audio/p40.mp3", label:"我把紅色窗花貼在窗戶"},
+    {img:"頁面截圖/040_扇子.png", audio:"assets/audio/p41.mp3", label:"扇子"},
+    {img:"頁面截圖/041_這是一把圓團扇.png", audio:"assets/audio/p42.mp3", label:"這是一把圓團扇"},
+    {img:"頁面截圖/042_絲綢扇面繪花鳥.png", audio:"assets/audio/p43.mp3", label:"絲綢扇面繪花鳥"},
+    {img:"頁面截圖/043_輕輕搖動吹涼風.png", audio:"assets/audio/p44.mp3", label:"輕輕搖動吹涼風"},
+    {img:"頁面截圖/044_我拿著小扇子輕輕搧風.png", audio:"assets/audio/p45.mp3", label:"我拿著小扇子輕輕搧風"},
+    {img:"頁面截圖/045_龍舟.png", audio:"assets/audio/p46.mp3", label:"龍舟"},
+    {img:"頁面截圖/046_這是一艘大龍舟.png", audio:"assets/audio/p47.mp3", label:"這是一艘大龍舟"},
+    {img:"頁面截圖/047_彩繪龍頭好威風.png", audio:"assets/audio/p48.mp3", label:"彩繪龍頭好威風"},
+    {img:"頁面截圖/048_端午節划船比賽.png", audio:"assets/audio/p49.mp3", label:"端午節划船比賽"},
+    {img:"頁面截圖/049_我在河岸邊為龍舟加油.png", audio:"assets/audio/p50.mp3", label:"我在河岸邊為龍舟加油"},
+  ];
+
+  let current = 0;
+  let audioUnlocked = false;
+  let autoPlay = false;
+  let autoTimer = null;
+
+  const pageImg = document.getElementById('pageImg');
+  const pageCount = document.getElementById('pageCount');
+  const dotsWrap = document.getElementById('dots');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const playBtn = document.getElementById('playBtn');
+  const autoBtn = document.getElementById('autoBtn');
+  const audioPlayer = document.getElementById('audioPlayer');
+  const stage = document.querySelector('.stage');
+  const frame = document.querySelector('.frame');
+
+  // 讓 16:9 的畫面框在「扣掉頁碼／圓點／按鈕之後剩下的空間」裡盡量放大，
+  // 同時保證整頁一定塞得進 100vh，不需要捲動——純 CSS（flex + aspect-ratio）
+  // 在直式或接近正方形的視窗下算不準，用 JS 直接量測、算好再賦值最可靠。
+  function fitFrame(){
+    const ratio = 1.0;
+    const availW = stage.clientWidth;
+    const availH = stage.clientHeight;
+    let w = availW, h = w / ratio;
+    if (h > availH){ h = availH; w = h * ratio; }
+    frame.style.width = w + 'px';
+    frame.style.height = h + 'px';
+  }
+  window.addEventListener('resize', fitFrame);
+  fitFrame();
+
+  pages.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'dot';
+    dot.addEventListener('click', () => goTo(i));
+    dotsWrap.appendChild(dot);
+  });
+  const dotEls = Array.from(dotsWrap.children);
+
+  function updateDots(){
+    dotEls.forEach((d,i)=> d.classList.toggle('active', i===current));
+  }
+
+  function playCurrentAudio(){
+    audioPlayer.currentTime = 0;
+    const p = audioPlayer.play();
+    if (p !== undefined){
+      p.then(()=>{
+        audioUnlocked = true;
+        playBtn.classList.add('playing');
+      }).catch(()=>{
+        // 瀏覽器擋自動播放時靜靜失敗即可，按「重複播放」按鈕還是能手動播放
+      });
+    }
+  }
+
+
+  function updateAutoBtn(){
+    autoBtn.classList.toggle('active', autoPlay);
+    autoBtn.textContent = autoPlay ? '⏸ 停止自動播放' : '▶ 自動播放';
+  }
+
+  function stopAuto(){
+    autoPlay = false;
+    updateAutoBtn();
+    clearTimeout(autoTimer);
+  }
+
+  function render(autoplay){
+    const page = pages[current];
+    pageImg.src = page.img;
+    pageImg.alt = page.label;
+    pageCount.textContent = (current+1) + ' / ' + pages.length;
+    audioPlayer.src = page.audio;
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === pages.length - 1;
+    updateDots();
+    playBtn.classList.remove('playing');
+    if (autoplay){
+      playCurrentAudio();
+    }
+  }
+
+  function goTo(i){
+    if (i<0 || i>=pages.length) return;
+    current = i;
+    render(true);
+  }
+
+  prevBtn.addEventListener('click', ()=> { stopAuto(); goTo(current-1); });
+  nextBtn.addEventListener('click', ()=> { stopAuto(); goTo(current+1); });
+  playBtn.addEventListener('click', ()=> { audioUnlocked = true; playCurrentAudio(); });
+  autoBtn.addEventListener('click', ()=>{
+    audioUnlocked = true;
+    autoPlay = !autoPlay;
+    updateAutoBtn();
+    if (autoPlay) playCurrentAudio();
+    else clearTimeout(autoTimer);
+  });
+
+  audioPlayer.addEventListener('ended', ()=>{
+    playBtn.classList.remove('playing');
+    if (!autoPlay) return;
+    if (current < pages.length - 1){
+      autoTimer = setTimeout(()=> goTo(current+1), 700);
+    } else {
+      stopAuto();
+    }
+  });
+
+  document.addEventListener('keydown', (e)=>{
+    if (e.key === 'ArrowRight'){ stopAuto(); goTo(current+1); }
+    else if (e.key === 'ArrowLeft'){ stopAuto(); goTo(current-1); }
+    else if (e.key === ' '){ e.preventDefault(); playCurrentAudio(); }
+  });
+
+  render(true);
+  </script>
+</body>
+</html>
